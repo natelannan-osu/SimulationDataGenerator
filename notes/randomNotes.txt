@@ -1,0 +1,44 @@
+Finished importing bvh and smpl files
+things got sticky trying to retarget the smpl to the bvh motion
+decided to punt and use makehuman plugin with rokoko in blender
+
+Makehuman addon
+	called MPFV v2 and is available to download through githubas a zip
+		I then installed it through edit -> preferences -> addon -> install from disk
+	used rigify to rig it.  installed through blender's edit->preferences -> plugins didn't work as well as 
+		rigging with built in rigging system with the CMU skeleton
+	used rokoko to retarget.  installed a rokoko zip just like MPFV2
+
+creating a new human in MPFV2
+	type 'n' in blender to bring up tools and select mpfv2 tab
+	new human
+	from scratch -> select preferences (no breast targets, no phenotypes, no extra vertex groups)
+	create human
+	after creating, slect rigging
+	add rig -> add standard rig -> chose CMU MB option
+	create rig
+	select human.rig in scene collection window
+	go back to MPFB -> rigging -> load pose
+	Pose: t-pose, load pose
+
+BVH and matching
+	import bvh make scale CMU scaling:0.056444
+	in modeling tab, object mode move bvh skeleton
+	hide human skin
+	switch to pose mode and rotate bvh bones to match human
+
+IK retargeting
+	select Rokoko tab
+	go to retargeting
+	select source (cmu) and target (makehuman rig)
+	build bone list
+	modify if needed, bones should match 1 to 1 but sometimes app makes errors
+	https://youtu.be/5nHgYO8vzf4?si=IfBr7EuELHx80XXw
+	I selected autoscale and Use Pose: Current
+	select retarget animation
+	Blender will remember the Rokoko Studio Live retargeting options (like "Use Current Pose" and "Autoscale") across sessions, but not per .blend file. Here's what that means in practice:
+    	Once you check “Use Current Pose” and “Autoscale” in the Retargeting panel, Blender stores these settings in your user preferences or internal state.
+
+    	As long as:
+        	Blender remains open, or
+        	You haven’t reset user preferences or the add-on state, then future calls to bpy.ops.rsl.retarget_animation() will use those saved settings, even if you open a different .blend file.
